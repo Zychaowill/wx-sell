@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Seller implements Serializable {
+public class SellerInfo implements Serializable {
 
 	private static final long serialVersionUID = -5148352633627195393L;
 
