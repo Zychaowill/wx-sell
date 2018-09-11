@@ -16,22 +16,22 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	public ProductCategory findOne(Integer categoryId) {
-		return null;
+		return productCategoryRepository.findById(categoryId).orElse(null);
 	}
 
 	@Override
 	public List<ProductCategory> findAll() {
-		return null;
+		return productCategoryRepository.findAll();
 	}
 
 	@Override
 	public List<ProductCategory> findByCategoryTypeIn(List<Integer> categoryTypes) {
-		return null;
+		return productCategoryRepository.findByCategoryTypeIn(categoryTypes);
 	}
 
 	@Override
 	public ProductCategory save(ProductCategory productCategory) {
-		return null;
+		return productCategoryRepository.save(productCategory);
 	}
 
 }

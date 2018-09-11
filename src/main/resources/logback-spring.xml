@@ -24,7 +24,7 @@
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>/var/log/tomcat/wx-sell/info.%d.log</fileNamePattern>
+            <fileNamePattern>/Users/yachao/work/learn/git/wx-sell/info.%d.log</fileNamePattern>
         </rollingPolicy>
     </appender>
 
@@ -39,7 +39,7 @@
             </pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/var/log/tomcat/wx-sell/error.%d.log</fileNamePattern>
+            <fileNamePattern>/Users/yachao/work/learn/git/wx-sell/error.%d.log</fileNamePattern>
         </rollingPolicy>
     </appender>
 
