@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.project.wxsell.bean.dto.CartDto;
 import com.project.wxsell.enums.ProductStatusEnum;
 import com.project.wxsell.enums.ResultEnum;
 import com.project.wxsell.exception.WxSellException;
@@ -64,8 +65,18 @@ public class ProductServiceImpl implements ProductService {
 		if (productInfo.productStatusEnum() == ProductStatusEnum.DOWN) {
 			throw new WxSellException(ResultEnum.PRODUCT_STATUS_ERROR);
 		}
-		productInfo.setProductStatus(ProductStatusEnum.UP.getCode());
+		productInfo.setProductStatus(ProductStatusEnum.DOWN.getCode());
 		return productInfoRepository.save(productInfo);
+	}
+
+	@Override
+	public void increaseStock(List<CartDto> cartDtoList) {
+
+	}
+
+	@Override
+	public void decreateStock(List<CartDto> cartDtoList) {
+
 	}
 
 }

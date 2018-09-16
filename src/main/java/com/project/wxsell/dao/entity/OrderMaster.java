@@ -1,5 +1,7 @@
 package com.project.wxsell.dao.entity;
 
+import com.project.wxsell.enums.OrderStatusEnum;
+import com.project.wxsell.enums.PayStatusEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -31,9 +33,9 @@ public class OrderMaster implements Serializable {
 
     private BigDecimal orderAmount;
 
-    private Integer orderStatus;
+    private Integer orderStatus = OrderStatusEnum.NEW.getCode();
 
-    private Integer payStatus;
+    private Integer payStatus = PayStatusEnum.WAIT.getCode();
 
     private Date createTime;
 

@@ -2,6 +2,7 @@ package com.project.wxsell.service;
 
 import java.util.List;
 
+import com.project.wxsell.bean.dto.CartDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,4 +21,8 @@ public interface ProductService {
 	ProductInfo onSale(String productId);
 	
 	ProductInfo offSale(String productId);
+
+	void increaseStock(List<CartDto> cartDtoList);
+
+	void decreateStock(List<CartDto> cartDtoList);
 }

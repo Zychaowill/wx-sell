@@ -1,8 +1,15 @@
 package com.project.wxsell.service;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
+import com.project.wxsell.bean.dto.CartDto;
+import com.project.wxsell.dao.entity.ProductInfo;
+import com.project.wxsell.dao.repository.ProductInfoRepository;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +35,41 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
+
+	@Autowired
+	private ProductInfoRepository productInfoRepository;
+
+	@Autowired
+	private ProductService productService;
 	
 	@Override
 	public OrderDto create(OrderDto orderDto) {
+		BigDecimal orderAmount = new BigDecimal(0.0);
+
+		// 1.query product (quantity, price)
+		for (OrderDetail orderDetail : orderDto.getOrderDetailList()) {
+			ProductInfo productInfo = productInfoRepository.findById(orderDetail.getProductId()).orElse(null);
+			if (Objects.isNull(productInfo)) {
+				throw new WxSellException(ResultEnum.PRODUCT_NOT_EXIST);
+			}
+			// 2.calculate total of cost
+			orderAmount = orderDetail.getProductPrice()
+					.multiply(new BigDecimal(orderDetail.getProductQuantity()))
+					.add(orderAmount);
+		}
+		// 3.write order into DB (order_master, order_detail)
+		OrderMaster orderMaster = new OrderMaster();
+		orderMaster.setOrderId(orderDto.getOrderId());
+		orderMaster.setOrderAmount(orderAmount);
+		BeanUtils.copyProperties(orderDto, orderMaster);
+		OrderMaster returnOrderMaster = orderMasterRepository.save(orderMaster);
+
+		// 4.decrease stock of product
+		List<CartDto> cartDtoList = orderDto.getOrderDetailList()
+				.stream()
+				.map(orderDetail -> new CartDto(orderDetail.getProductId(), orderDetail.getProductQuantity()))
+				.collect(Collectors.toList());
+		productService.decreateStock(cartDtoList);
 		return null;
 	}
 
